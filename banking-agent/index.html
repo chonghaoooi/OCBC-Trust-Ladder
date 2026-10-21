@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrustLadder · Banker assistant</title>
+<meta name="description" content="A scripted internal banking assistant for account checks, fee-waiver assessments, policy lookup, and payment preparation, connected to the TrustLadder dashboard.">
+<script src="/demo-bridge.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font:15px/1.65 Inter,system-ui,sans-serif;color:#2c4135;background:white}button,input{font:inherit}button{cursor:pointer}button:disabled,input:disabled{opacity:.5;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #8db9a1;outline-offset:3px}.shell{display:flex;height:100dvh}.sidebar{width:240px;background:#f8faf8;border-right:1px solid #e5ebe7;padding:25px 17px;display:flex;flex-direction:column;flex-shrink:0}.brand{font-size:20px;color:#2a6448;font-weight:600;letter-spacing:-.7px;margin:0 9px 2px}.brand-icon{color:#659b77;margin-right:6px}.internal{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8b9e90;margin:0 9px 33px}.caption{font-size:10px;font-weight:600;letter-spacing:1px;color:#8b9c90;margin:0 9px 10px}.agent-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid transparent;border-radius:7px;padding:11px 9px;background:transparent;color:#718b79;font-size:12px;margin:3px 0}.agent-btn.selected{color:#2d6b46;background:#eaf3ec;border-color:#dbe9de}.initials{width:28px;height:28px;display:grid;place-items:center;font-size:9px;border:1px solid #dce8df;border-radius:7px;background:#fff}.sidebar-bottom{margin-top:auto;border-top:1px solid #e2eae4;padding:18px 8px 0}.sidebar-bottom p{font-size:11px;color:#94a497}.sidebar-bottom a{font-size:12px;display:block;margin-top:14px;color:#497b5c;text-decoration:none}.workspace{display:flex;flex:1;flex-direction:column;min-width:0}.topbar{height:69px;padding:0 27px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #ebefec}.topbar b{font-size:13px;font-weight:600}.staff-tag{font-size:10px;border:1px solid #dce7df;background:#f5f9f6;border-radius:5px;padding:4px 9px;color:#7e9785;white-space:nowrap}.chat-body{flex:1;min-height:0;display:flex;flex-direction:column;width:100%;max-width:850px;margin:0 auto}.messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:22px;padding:30px 28px}.message{max-width:90%;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.9}.message.user{align-self:flex-end;background:#f0f5f1;border:1px solid #e4ece6;padding:13px 18px;border-radius:14px 14px 3px 14px;color:#4a7056}.message.bot{align-self:flex-start;padding:4px 0;color:#637e6c}.message.bot:before{content:'TL';display:grid;place-items:center;width:27px;height:27px;border:1px solid #dae8df;background:#f0f7f2;color:#679377;border-radius:8px;font-size:9px;font-weight:600;margin-bottom:11px}.message .tag{display:block;font-size:12px;line-height:1.6;font-weight:600;color:#51835f;margin-top:10px}.message.bad .tag{color:#ae7461}.welcome h1{font-size:25px;letter-spacing:-.6px;margin:0 0 8px;font-weight:600;color:#526f5b}.welcome p{font-size:13px;color:#8a9e90;margin:0;max-width:550px}.welcome{margin-bottom:10px}.hints{display:flex;gap:8px;flex-wrap:wrap;padding:0 28px 12px}.hints button{font-size:11px;border:1px solid #e1e9e3;background:#fff;border-radius:7px;color:#829a89;padding:8px 12px}.hints button:hover{background:#f6faf7}form{display:flex;gap:10px;padding:0 28px 12px}input{flex:1;min-width:0;background:#f9fbf9;border:1px solid #dfe8e1;border-radius:10px;padding:14px 17px;font-size:13px;color:#526f5b}input::placeholder{color:#9eafa3}form button{font-size:13px;padding:0 20px;background:#347851;color:#fff;border:1px solid #347851;border-radius:9px}.footer{padding:3px 22px 12px;text-align:center;font-size:10px;color:#9aaa9e}.working{font-size:11px;color:#97aa9b;padding:0 28px 9px;min-height:26px}.feed-status{font-size:11px;color:#ad745c;padding:0 28px 8px;margin:0}.mobile-label{display:none}@media(max-width:700px){.shell{height:auto;min-height:100dvh;display:block}.sidebar{width:100%;padding:15px 12px;border-right:0;border-bottom:1px solid #e5ebe7;display:block}.brand{font-size:18px}.internal{font-size:8px;margin-bottom:12px}.caption,.sidebar-bottom{display:none}#agents{display:flex;gap:5px}.agent-btn{font-size:9px;gap:5px;padding:8px 6px;margin:0;justify-content:center}.initials{width:20px;height:20px;font-size:7px}.workspace{height:calc(100dvh - 125px);min-height:450px}.topbar{height:52px;padding:0 20px}.topbar b{font-size:12px}.staff-tag{font-size:9px}.messages{padding:23px 20px}.message{font-size:14px;max-width:96%}.hints{padding:0 20px 10px}.hints button{font-size:10px}form{padding:0 20px 10px}form button{padding:0 16px}input{padding:12px;font-size:12px}.welcome h1{font-size:23px}.footer{font-size:9px}.working{padding:0 20px 6px}}
+</style>
+</head>
+<body><div class="shell">
+<aside class="sidebar"><div class="brand"><span class="brand-icon">▥</span>TrustLadder</div><div class="internal">Internal banker workspace</div><div class="caption">YOUR BANKING AGENTS</div><nav id="agents" aria-label="Select banking agent"></nav><div class="sidebar-bottom"><p>For bank staff: inspect account records, assess requests, and prepare customer replies.</p><a href="http://localhost:4181/" target="_blank" rel="noreferrer">Open TrustLadder dashboard ↗</a></div></aside>
+<main class="workspace"><header class="topbar"><b id="agent-title">Card Servicing Agent</b><span class="staff-tag">Bank staff only · Demo</span></header><section class="chat-body"><div class="messages" id="msgs" role="log" aria-live="polite"></div><p class="feed-status" id="feed-status" role="status" hidden>Activity relay unavailable. Start the demo server to connect the dashboard.</p><div class="working" id="working" role="status"></div><div class="hints" id="hints"></div><form id="f"><input id="q" aria-label="Message the banking agent" placeholder="Ask for an account check, policy, or draft…" autocomplete="off"><button id="send">Send</button></form></section><footer class="footer">Prototype · demo data · For bankers · Scripted checks and simulated tool calls · No banking actions executed</footer></main>
+</div><script>
+const $ = id => document.getElementById(id)
+const LOCAL_RELAY = location.port === '4180'
+document.querySelector('.sidebar-bottom a').href = LOCAL_RELAY ? 'http://localhost:4181/' : '/'
+const ACC = { id:'A-1001', balance:4820.55, daysOverdue:70, lateFee:100 }
+const AGENTS = [
+  {id:'card-servicing', name:'Card Servicing Agent', initials:'CS', description:'Check accounts, assess fee-waiver requests, and prepare replies for your customers.'},
+  {id:'payments',name:'Payments Agent',initials:'PA',description:'Check balances and limits, and prepare payment details for banker review.'},
+  {id:'policy',name:'Policy Assistant',initials:'PL',description:'Find the current policy, inspect its conditions, and prepare a source-backed summary.'},
+]
+const FLOWS = [
+ {agents:['card-servicing','payments'],hint:'Check balance for A-1001',re:/balance/i,
+  steps:[{tool:'get_account',req:{id:ACC.id},res:{balance:ACC.balance,currency:'SGD'},ms:84}],
+  draft:'Account A-1001 has an available balance of S$4,820.55.',
+  ok:'Account A-1001 has an available balance of S$4,820.55. This is a synthetic account snapshot for banker review.',
+  checks:[['grounded',true,'account snapshot found'],['correct',true,'balance matches the account'],['current',true,'current demo snapshot'],['complete',true,'account lookup completed'],['onTarget',true,'answers the banker’s account query']]},
+ {agents:['card-servicing'],hint:'Assess late-fee waiver for A-1001',re:/waiv|late fee|late-fee/i,
+  steps:[{tool:'get_account',req:{id:ACC.id},res:{days_overdue:70,late_fee:100},ms:91},{tool:'search_policy',req:{q:'late fee waiver'},res:{doc:'G1 v4 §2.1',text:'One late charge may be waived every 24 months.'},ms:143}],
+  draft:'A-1001 is eligible. Recommend approving the S$100 waiver under G1 §2.1.',
+  fail:'Do not use the proposed approval. Account A-1001 is 70 days overdue; G1 v4 §3.2 excludes accounts over 60 days. The agent also skipped the waiver-history lookup.\n\nSuggested banker action: decline the waiver under the supplied policy and review the evidence in TrustLadder before replying to the customer.',
+  checks:[['grounded',false,'waiver history has no supporting record'],['correct',false,'70 days overdue exceeds the 60-day limit'],['current',true,'G1 v4 is current'],['complete',false,'get_waiver_history never called'],['onTarget',true,'addresses the banker’s waiver query']]},
+ {agents:['payments'],hint:'Prepare S$500 payment to Ahmad',re:/prepare|transfer|payment|send|pay /i,
+  steps:[{tool:'get_account',req:{id:ACC.id},res:{balance:ACC.balance},ms:79},{tool:'check_limit',req:{id:ACC.id,amount:500},res:{daily_limit:5000,used:0,allowed:true},ms:66},{tool:'quote_transfer',req:{to:'Ahmad',amount:500},res:{fee:0,new_balance:4320.55},ms:120}],
+  draft:'Prepared payment: A-1001 → Ahmad · S$500 · fee S$0 · projected balance S$4,320.55.',
+  ok:'Prepared payment for banker review:\nFrom: A-1001\nTo: Ahmad\nAmount: S$500\nFee: S$0\nProjected balance: S$4,320.55\nDaily limit: within S$5,000\n\nNothing has been sent. This prototype does not execute payments.',
+  checks:[['grounded',true,'account, limit and quote found'],['correct',true,'4820.55 − 500 = 4320.55'],['current',true,'current demo quote'],['complete',true,'balance and limit checked'],['onTarget',true,'prepares the requested payment']]},
+ {agents:['policy'],hint:'Find current late-fee waiver rules',re:/policy|rule|waiv|late.fee|g1/i,
+  steps:[{tool:'search_policy',req:{q:'late fee waiver'},res:{doc:'G1 v4',clauses:['§2.1','§3.2']},ms:143},{tool:'get_policy_version',req:{doc:'G1'},res:{current:'v4',effective:'2026-09-01',supersedes:'v3'},ms:80}],
+  draft:'G1 v4 is current. One late charge may be waived every 24 months; accounts over 60 days overdue are ineligible.',
+  ok:'Current demo policy: G1 v4, effective 1 Sep 2026.\n\n§2.1: One late payment charge may be waived every 24 months.\n§3.2: Accounts more than 60 days overdue are not eligible.\n\nFor an eligibility decision, ask Card Servicing to check the account and waiver history. These are supplied synthetic policy excerpts.',
+  checks:[['grounded',true,'both policy clauses found'],['correct',true,'summary follows both conditions'],['current',true,'G1 v4 supersedes v3'],['complete',true,'policy version checked'],['onTarget',true,'answers the banker’s policy query']]},
+]
+let selected = 'card-servicing', busy = false, activeRun = null, serial = 0, eventQueue = Promise.resolve()
+const conversations = Object.fromEntries(AGENTS.map(a => [a.id, []]))
+const sleep = ms => new Promise(r=>setTimeout(r,ms))
+function emit(event) {
+  const payload={...event,agentId:activeRun?.agentId || selected,runId:activeRun?.id || null}
+  eventQueue=eventQueue.then(async()=>{if(LOCAL_RELAY){const res=await fetch('/api/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!res.ok)throw new Error('Relay unavailable')}else{if(!window.TrustLadderDemo)throw new Error('Demo transport unavailable');window.TrustLadderDemo.publish(payload)}$('feed-status').hidden=true}).catch(()=>{$('feed-status').hidden=false})
+}
+const log = (cls,text)=>emit({cls,text,ts:new Date().toLocaleTimeString('en-GB')})
+function renderMessages(){
+  $('msgs').replaceChildren()
+  const welcome=document.createElement('div');welcome.className='welcome'
+  const h=document.createElement('h1');h.textContent='How can I help with your work?'
+  const p=document.createElement('p');p.textContent=AGENTS.find(a=>a.id===selected).description
+  welcome.append(h,p);$('msgs').append(welcome)
+  for(const item of conversations[selected]){
+    const el=document.createElement('div');el.className=`message ${item.role}${item.bad?' bad':''}`;el.textContent=item.text
+    if(item.tag){const tag=document.createElement('span');tag.className='tag';tag.textContent=item.tag;el.append(tag)}
+    $('msgs').append(el)
+  }
+  $('msgs').scrollTop=$('msgs').scrollHeight
+}
+function say(role,text,tag,bad){conversations[selected].push({role,text,tag,bad});renderMessages()}
+function setControls(disabled){
+  $('q').disabled=disabled;$('send').disabled=disabled
+  document.querySelectorAll('#agents button,#hints button').forEach(b=>b.disabled=disabled)
+}
+function selectAgent(id){
+  if(busy)return
+  selected=id;$('agent-title').textContent=AGENTS.find(a=>a.id===id).name
+  document.querySelectorAll('#agents button').forEach(b=>{b.classList.toggle('selected',b.dataset.agent===id);b.setAttribute('aria-pressed',String(b.dataset.agent===id))})
+  $('hints').replaceChildren()
+  for(const flow of FLOWS.filter(f=>f.agents.includes(id))){const b=document.createElement('button');b.textContent=flow.hint;b.onclick=()=>run(flow.hint);$('hints').append(b)}
+  renderMessages()
+}
+async function run(text){
+  if(busy)return
+  busy=true;activeRun={agentId:selected,id:`run-${Date.now()}-${++serial}`};setControls(true);$('working').textContent='Agent working · playing the demo script…'
+  say('user',text);emit({state:'working…'});log('info',`── new request ── banker: "${text}"`)
+  try{
+    let flow=FLOWS.find(f=>f.agents.includes(selected)&&f.re.test(text))
+    if(flow&&selected==='card-servicing'&&flow.fail){
+      try{const state=LOCAL_RELAY?await (await fetch('/api/demo')).json():window.TrustLadderDemo.getState();if(state.fixed){flow={...flow,steps:[flow.steps[0],{tool:'get_waiver_history',req:{id:ACC.id},res:{last_waiver:null},ms:74},{tool:'search_policy',req:{q:'late fee waiver eligibility'},res:{doc:'G1 v4 §3.2',text:'Accounts over 60 days overdue are not eligible.'},ms:143}],draft:'A-1001 is not eligible: 70 days overdue exceeds G1 §3.2’s 60-day limit.',ok:'Account A-1001 is not eligible for the S$100 waiver: it is 70 days overdue, exceeding the 60-day limit in G1 v4 §3.2. Waiver history was also checked.\n\nDraft for your review: “We’re unable to waive the late payment charge this time, as the account is more than 60 days overdue (G1 §3.2).”',checks:[['grounded',true,'account, history and policy found'],['correct',true,'70 days exceeds 60-day limit'],['current',true,'G1 v4 is current'],['complete',true,'account and waiver history checked'],['onTarget',true,'answers the eligibility request']]};log('info','Fixed agent instructions applied from TrustLadder · scripted demo')}}catch{log('warn','Dashboard fix state unavailable; using the original script')}
+    }
+    await sleep(250)
+    if(!flow){log('warn','[warn] no scripted capability for this request and selected agent');log('notify','[notify] → banker: Not verified. Choose a supported example or review manually.');say('bot','This prototype covers the example tasks shown below. Choose a matching banking agent and example request.','Not verified',true);return}
+    log('info',`Plan: ${flow.steps.map(s=>s.tool).join(' → ')}`)
+    for(const step of flow.steps){await sleep(350);log('req',`→ POST /tools/${step.tool} ${JSON.stringify(step.req)}`);await sleep(step.ms*2);log('res',`← 200 ${step.ms}ms ${JSON.stringify(step.res)} · simulated`)}
+    log('info',`Draft (internal): "${flow.draft}"`);await sleep(300);log('info','Scripted five-check assessment begins')
+    for(const [name,pass,why]of flow.checks){await sleep(220);log(pass?'res':'fail',`${pass?'✓ pass':'✗ FAIL'} ${name} — ${why}`)}
+    if(flow.checks.every(c=>c[1])){log('success','[success] all five scripted checks passed');log('notify','[notify] → banker: Verified. Result ready for banker review.');say('bot',flow.ok,'Verified')}
+    else{log('fail','[fail] draft blocked; do not use this result');log('notify','[notify] → banker: Not verified. Review the evidence and corrected suggestion.');say('bot',flow.fail,'Not verified',true)}
+  }catch{log('warn','[warn] the demo run could not finish');say('bot','The demo could not finish. Try the example again.','Not verified',true)}
+  finally{emit({state:'idle'});activeRun=null;busy=false;setControls(false);$('working').textContent='';$('q').focus()}
+}
+for(const agent of AGENTS){const b=document.createElement('button');b.className='agent-btn';b.dataset.agent=agent.id;const initials=document.createElement('span');initials.className='initials';initials.textContent=agent.initials;const text=document.createElement('span');text.textContent=agent.name;b.append(initials,text);b.onclick=()=>selectAgent(agent.id);$('agents').append(b)}
+$('f').onsubmit=e=>{e.preventDefault();const text=$('q').value.trim();if(!text||busy)return;$('q').value='';run(text)}
+selectAgent(selected)
+</script></body></html>

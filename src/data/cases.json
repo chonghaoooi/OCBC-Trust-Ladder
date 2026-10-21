@@ -1,0 +1,233 @@
+[
+  {
+    "id": "C-001",
+    "customer": "Tan Wei Ling",
+    "subject": "Late fee waiver",
+    "time": "9:12 am",
+    "accountId": "A-1001",
+    "source": "G1 v4 §2.1",
+    "email": "Hi, I was charged a S$100 late fee on my credit card. I've been with OCBC for 8 years. Could you please waive it? Thanks, Wei Ling",
+    "baselineScore": 1.0,
+    "queue": null,
+    "versions": {
+      "before": {
+        "reply": "Yes, you're eligible. One late charge can be waived every 24 months (G1 §2.1). We'll process the waiver for you.",
+        "steps": [
+          { "tool": "get_account", "input": "A-1001", "result": "days overdue: 70" },
+          { "tool": "search_policy", "input": "late fee waiver", "result": "G1 v4 §2.1" },
+          { "tool": "get_waiver_history", "input": "A-1001", "skipped": true }
+        ],
+        "status": "REJECTED",
+        "reason": "It promises a waiver, but the account is 70 days overdue.",
+        "claims": [
+          { "text": "One late charge can be waived every 24 months", "label": "CHECKED",
+            "evidence": [{ "type": "clause", "ref": "G1 v4 §2.1", "text": "One late payment charge may be waived every 24 months." }] },
+          { "text": "You're eligible", "label": "WRONG",
+            "evidence": [
+              { "type": "record", "ref": "A-1001 · days overdue", "text": "70" },
+              { "type": "clause", "ref": "G1 v4 §3.2", "text": "Accounts more than 60 days overdue are not eligible for a waiver." }
+            ] },
+          { "text": "No waiver in the last 24 months", "label": "NO_PROOF",
+            "evidence": [{ "type": "note", "ref": "Waiver history", "text": "The agent never checked waiver history, so this can't be confirmed." }] },
+          { "text": "We'll process the waiver", "label": "WRONG",
+            "evidence": [{ "type": "clause", "ref": "G1 v4 §3.2", "text": "Accounts more than 60 days overdue are not eligible for a waiver." }] }
+        ],
+        "checks": { "grounded": "fail", "correct": "fail", "current": "pass", "complete": "fail", "onTarget": "pass" },
+        "suggestedReply": {
+          "text": "Thank you for being with us for 8 years. We're unable to waive the late payment charge this time, because the account is more than 60 days overdue (G1 §3.2). Once the account is up to date, we'd be glad to help with future requests.",
+          "status": "VERIFIED"
+        }
+      },
+      "afterFix": {
+        "reply": "We're unable to waive the late payment charge this time, as the account is more than 60 days overdue (G1 §3.2).",
+        "steps": [
+          { "tool": "get_account", "input": "A-1001", "result": "days overdue: 70" },
+          { "tool": "get_waiver_history", "input": "A-1001", "result": "no waiver on record" },
+          { "tool": "search_policy", "input": "late fee waiver", "result": "G1 v4 §3.2" }
+        ],
+        "status": "VERIFIED",
+        "reason": "All 3 claims checked out.",
+        "claims": [
+          { "text": "Unable to waive the late payment charge", "label": "CHECKED",
+            "evidence": [{ "type": "clause", "ref": "G1 v4 §3.2", "text": "Accounts more than 60 days overdue are not eligible for a waiver." }] },
+          { "text": "The account is more than 60 days overdue", "label": "CHECKED",
+            "evidence": [{ "type": "record", "ref": "A-1001 · days overdue", "text": "70" }] },
+          { "text": "G1 §3.2 is the rule", "label": "CHECKED",
+            "evidence": [{ "type": "clause", "ref": "G1 v4 §3.2", "text": "Accounts more than 60 days overdue are not eligible for a waiver." }] }
+        ],
+        "checks": { "grounded": "pass", "correct": "pass", "current": "pass", "complete": "pass", "onTarget": "pass" }
+      }
+    }
+  },
+  {
+    "id": "C-014",
+    "customer": "Ahmad Rizal",
+    "subject": "Late fee waiver",
+    "time": "9:04 am",
+    "accountId": "A-1014",
+    "source": "G1 v3 §2.1",
+    "email": "Hello, I was charged a S$100 late fee although my account was only 20 days overdue. Please could you waive it? Regards, Ahmad",
+    "queue": { "reason": "Cited an old policy (G1 v3).", "amount": 100, "rank": 1, "kind": "needs_review" },
+    "versions": {
+      "before": {
+        "reply": "Yes, you're eligible. One late charge can be waived every 24 months (G1 v3 §2.1). We'll process the waiver for you.",
+        "steps": [
+          { "tool": "get_account", "input": "A-1014", "result": "days overdue: 20" },
+          { "tool": "get_waiver_history", "input": "A-1014", "result": "no waiver in 24 months" },
+          { "tool": "search_policy", "input": "late fee waiver", "result": "G1 v3 §2.1" }
+        ],
+        "status": "NEEDS_REVIEW",
+        "reason": "Cited an old policy (G1 v3).",
+        "claims": [
+          { "text": "One late charge can be waived every 24 months (G1 v3 §2.1)", "label": "OLD_POLICY",
+            "evidence": [{ "type": "clause", "ref": "G1 v3 §2.1", "text": "G1 v3 was replaced by v4 on 1 Sep 2026." }] },
+          { "text": "You're eligible", "label": "CHECKED",
+            "evidence": [{ "type": "record", "ref": "A-1014 · days overdue", "text": "20" }] },
+          { "text": "We'll process the waiver", "label": "CHECKED",
+            "evidence": [{ "type": "clause", "ref": "G1 v4 §2.1", "text": "One late payment charge may be waived every 24 months." }] }
+        ],
+        "checks": { "grounded": "pass", "correct": "pass", "current": "fail", "complete": "pass", "onTarget": "pass" },
+        "suggestedReply": {
+          "text": "Yes, you're eligible. One late payment charge can be waived every 24 months (G1 v4 §2.1). We'll process the waiver for you.",
+          "status": "VERIFIED"
+        }
+      }
+    }
+  },
+  {
+    "id": "C-022",
+    "customer": "Priya Nair",
+    "subject": "Late fee waiver",
+    "time": "8:51 am",
+    "accountId": "A-1022",
+    "source": "G1 v4 §2.1",
+    "email": "Hi, I missed my due date by 5 days and was charged S$100. This is my first time. Could you waive it? Thanks, Priya",
+    "queue": { "reason": "Statement timing has no proof in the knowledge base.", "amount": 100, "rank": 2, "kind": "needs_review",
+      "disagreeNote": "Suggest adding the servicing guide to the knowledge base." },
+    "versions": {
+      "before": {
+        "reply": "Yes, you're eligible (G1 v4 §2.1). The reversal will show on your next statement.",
+        "steps": [
+          { "tool": "get_account", "input": "A-1022", "result": "days overdue: 5" },
+          { "tool": "get_waiver_history", "input": "A-1022", "result": "no waiver in 24 months" },
+          { "tool": "search_policy", "input": "late fee waiver", "result": "G1 v4 §2.1" }
+        ],
+        "status": "NEEDS_REVIEW",
+        "reason": "One statement about timing has no proof in our documents.",
+        "claims": [
+          { "text": "You're eligible", "label": "CHECKED",
+            "evidence": [{ "type": "record", "ref": "A-1022 · days overdue", "text": "5" }] },
+          { "text": "The reversal will show on your next statement", "label": "NO_PROOF",
+            "evidence": [{ "type": "note", "ref": "Knowledge base", "text": "Statement timing isn't in the knowledge base." }] }
+        ],
+        "checks": { "grounded": "fail", "correct": "pass", "current": "pass", "complete": "pass", "onTarget": "pass" },
+        "suggestedReply": {
+          "text": "Yes, you're eligible (G1 v4 §2.1). We'll process the waiver for you.",
+          "status": "VERIFIED"
+        }
+      }
+    }
+  },
+  {
+    "id": "C-009",
+    "customer": "Daniel Wong",
+    "subject": "Late fee question",
+    "time": "8:40 am",
+    "accountId": "A-1009",
+    "source": "G2 v2 §1.1",
+    "email": "Hi, why was I charged a S$100 late fee this month? Thanks, Daniel",
+    "queue": { "reason": "Doesn't answer the question asked.", "amount": 100, "rank": 4, "kind": "needs_review" },
+    "versions": {
+      "before": {
+        "reply": "Your annual fee can be waived once per year if you ask us (G2 §1.1). Let us know if you'd like us to proceed.",
+        "steps": [
+          { "tool": "search_policy", "input": "fee waiver", "result": "G2 v2 §1.1" }
+        ],
+        "status": "NEEDS_REVIEW",
+        "reason": "The customer asked about a late fee. The reply explains the annual fee.",
+        "claims": [
+          { "text": "Your annual fee can be waived once per year", "label": "OFF_TARGET",
+            "evidence": [{ "type": "note", "ref": "Customer asked", "text": "Why was I charged a S$100 late fee this month?" }] }
+        ],
+        "checks": { "grounded": "pass", "correct": "pass", "current": "pass", "complete": "pass", "onTarget": "fail" },
+        "suggestedReply": {
+          "text": "The S$100 late payment charge applies when the minimum payment isn't received by the due date (Credit Card Summary of Terms). If you'd like, we can check whether it qualifies for a waiver.",
+          "status": "VERIFIED"
+        }
+      }
+    }
+  },
+  {
+    "id": "C-040",
+    "customer": "Lim Jun Hao",
+    "subject": "Annual fee waiver",
+    "time": "8:22 am",
+    "accountId": "A-1040",
+    "source": "G2 v2 §1.1",
+    "email": "Hi, could you waive the annual fee on my card this year? I use it a lot. Thanks, Jun Hao",
+    "queue": { "reason": "The check couldn't finish (timeout).", "amount": 194, "rank": 3, "kind": "not_checked" },
+    "versions": {
+      "before": {
+        "reply": "Yes, we can waive your annual fee this year. We'll process it for you.",
+        "steps": [],
+        "status": "NOT_CHECKED",
+        "reason": "The check couldn't finish (timeout). Ask your supervisor before sending.",
+        "claims": [],
+        "checks": null
+      }
+    }
+  },
+  {
+    "id": "C-031",
+    "customer": "Marcus Lee",
+    "subject": "Late payment charge",
+    "time": "8:05 am",
+    "accountId": "A-1031",
+    "source": "Credit Card Summary of Terms",
+    "email": "What's the late payment charge on my card?",
+    "queue": null,
+    "versions": {
+      "before": {
+        "reply": "The late payment charge is S$100 (Credit Card Summary of Terms).",
+        "steps": [
+          { "tool": "search_policy", "input": "late payment charge", "result": "Credit Card Summary of Terms" }
+        ],
+        "status": "VERIFIED",
+        "reason": "The claim in this reply checked out.",
+        "claims": [
+          { "text": "The late payment charge is S$100", "label": "CHECKED",
+            "evidence": [{ "type": "clause", "ref": "Credit Card Summary of Terms", "text": "Late payment charge: S$100." }] }
+        ],
+        "checks": { "grounded": "pass", "correct": "pass", "current": "pass", "complete": "pass", "onTarget": "pass" }
+      }
+    }
+  },
+  {
+    "id": "C-052",
+    "customer": "Siti Rahman",
+    "subject": "Annual fee waiver",
+    "time": "7:48 am",
+    "accountId": "A-1052",
+    "source": "G2 v2 §1.1",
+    "email": "Hello, could I get the annual fee waived this year? Thank you, Siti",
+    "queue": { "reason": "Random spot-check of a Verified reply.", "amount": 194, "rank": 5, "kind": "spot_check" },
+    "versions": {
+      "before": {
+        "reply": "Yes, we can waive the annual fee once for you (G2 §1.1). We'll process the waiver.",
+        "steps": [
+          { "tool": "get_account", "input": "A-1052", "result": "annual fee waived: never" },
+          { "tool": "search_policy", "input": "annual fee waiver", "result": "G2 v2 §1.1" }
+        ],
+        "status": "VERIFIED",
+        "reason": "All 2 claims checked out.",
+        "claims": [
+          { "text": "The annual fee can be waived once", "label": "CHECKED",
+            "evidence": [{ "type": "clause", "ref": "G2 v2 §1.1", "text": "The annual fee may be waived once for eligible cards." }] },
+          { "text": "You're eligible", "label": "CHECKED",
+            "evidence": [{ "type": "record", "ref": "A-1052 · annual fee waived", "text": "never" }] }
+        ],
+        "checks": { "grounded": "pass", "correct": "pass", "current": "pass", "complete": "pass", "onTarget": "pass" }
+      }
+    }
+  }
+]

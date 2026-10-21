@@ -1,0 +1,5 @@
+[
+  {"id":"card-servicing","name":"Card Servicing Agent","shortName":"Card Servicing","initials":"CS","description":"Account checks, fee-waiver eligibility, and servicing drafts.","tools":["get_account","get_waiver_history","search_policy"],"topic":"Fee waivers"},
+  {"id":"payments","name":"Payments Agent","shortName":"Payments","initials":"PA","description":"Balances, transfer limits, and payment preparation for bankers.","tools":["get_account","check_limit","quote_transfer"],"topic":"Payment preparation"},
+  {"id":"policy","name":"Policy Assistant","shortName":"Policy","initials":"PL","description":"Current policy lookup and source-backed answers for bank staff.","tools":["search_policy","get_policy_version"],"topic":"Policy lookup"}
+]

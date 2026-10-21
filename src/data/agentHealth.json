@@ -1,0 +1,28 @@
+{
+  "thresholds": { "act": 0.95, "recommend": 0.85, "draft": 0.7 },
+  "tests": { "base": 45, "passBefore": 35, "passAfter": 41 },
+  "stats": { "spotChecks": 12, "missed": 1, "falseAlarms": 2, "falseAlarmOf": 10 },
+  "topics": [
+    { "id": "late", "name": "Late fee waiver", "trend": [90, 91, 92, 76, 76, 76], "fixedPoint": 89 },
+    { "id": "annual", "name": "Annual fee waiver", "level": 2, "trend": [88, 89, 88, 90, 89, 89], "note": "Steady since the last review." },
+    { "id": "general", "name": "General fee questions", "level": 3, "trend": [96, 96, 97, 96, 97, 96], "note": "Steady since the last review." }
+  ],
+  "weeks": ["W1", "W2", "W3", "W4", "W5", "W6", "Now"],
+  "problems": [
+    {
+      "id": "p1",
+      "title": "Said 'eligible' without checking days overdue",
+      "count": "6 of 9",
+      "why": "The agent had the record but ignored it.",
+      "fix": "Add to the agent's instructions: always check days overdue and waiver history before deciding.",
+      "demo": true
+    },
+    {
+      "id": "p2",
+      "title": "Cited an old policy version",
+      "count": "2 of 9",
+      "why": "Superseded documents are still searchable.",
+      "fix": "Remove superseded versions from the knowledge base search."
+    }
+  ]
+}
