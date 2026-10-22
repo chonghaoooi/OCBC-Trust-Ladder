@@ -1,5 +1,8 @@
 # Banking Agent demo
 
+Live on Vercel: [Banker assistant](https://ocbc-trust-ladder.vercel.app/banker/) ·
+[TrustLadder dashboard](https://ocbc-trust-ladder.vercel.app/).
+
 Run both websites with one command from the project root:
 
 ```sh

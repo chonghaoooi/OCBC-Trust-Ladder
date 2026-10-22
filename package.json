@@ -1,5 +1,8 @@
 {
   "name": "trustladder-demo",
+  "description": "TrustLadder banking-agent assurance prototype for bank staff. Live demo: https://ocbc-trust-ladder.vercel.app",
+  "homepage": "https://ocbc-trust-ladder.vercel.app",
+  "repository": { "type": "git", "url": "https://github.com/chonghaoooi/OCBC-Trust-Ladder.git" },
   "private": true,
   "version": "0.1.0",
   "type": "module",

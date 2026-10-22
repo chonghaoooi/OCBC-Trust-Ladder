@@ -1,5 +1,11 @@
 # TrustLadder
 
+**Live demo:** [TrustLadder dashboard](https://ocbc-trust-ladder.vercel.app/) ·
+[Banker assistant](https://ocbc-trust-ladder.vercel.app/banker/)
+
+Share these links with friends; the production pages are public and require no
+Vercel login. Keep both pages open in the same browser to see the activity stream.
+
 A clickable prototype for bank staff to review banking-agent drafts, inspect
 evidence, make supervisor decisions, and follow each agent's activity.
 
