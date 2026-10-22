@@ -73,4 +73,6 @@ also has a built-in scripted example that can run without opening the assistant.
 
 `vercel.json` builds the Vite app into `dist`. The build also packages the banker
 assistant at `/banker/`. No environment variables or paid services are required.
-The connected GitHub production branch is `main`.
+The GitHub source branch is `main`. Production can be deployed from a linked
+checkout with `vercel --prod`. Automatic deployments from GitHub require the
+Vercel GitHub integration to be granted access to this repository.
